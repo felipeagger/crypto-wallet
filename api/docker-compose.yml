@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./script.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=crypto-wallet
+    networks:
+      - crypto-wallet
+
+  app:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - crypto-wallet
+
+networks:
+  crypto-wallet:
+    driver: bridge
