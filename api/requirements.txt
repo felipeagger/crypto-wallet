@@ -1,0 +1,10 @@
+requests==2.28.1
+fastapi>=0.68.0,<0.69.0
+pydantic>=1.8.0,<2.0.0
+uvicorn>=0.15.0,<0.16.0
+FastAPI-SQLAlchemy==0.2.1
+psycopg2-binary==2.9.5
+SQLAlchemy==1.4.44
+bcrypt==4.0.1
+PyJWT==2.6.0
+aiofiles==22.1.0
