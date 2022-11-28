@@ -76,6 +76,12 @@ def create_transaction(user_id: str, payload: Transaction):
     if payload.to_address.lower() == wallet.address:
         return {"msg": "not permitted destination address"}, 400
 
+    destination_wallet = db.session.query(ModelWallet).filter(ModelWallet.address == payload.to_address.lower(),
+                                                              ModelWallet.currency == payload.currency).first()
+
+    if not destination_wallet:
+        return {"msg": "destination wallet not found"}, 404
+
     try:
         transaction = ModelTransaction(
             currency=payload.currency,
