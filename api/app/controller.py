@@ -73,11 +73,14 @@ def create_transaction(user_id: str, payload: Transaction):
     if actual_balance < payload.amount:
         return {"msg": "insufficient founds"}, 400
 
+    if payload.to_address.lower() == wallet.address:
+        return {"msg": "not permitted destination address"}, 400
+
     try:
         transaction = ModelTransaction(
             currency=payload.currency,
             from_address=wallet.address,
-            to_address=payload.to_address,
+            to_address=payload.to_address.lower(),
             value=payload.amount * -1,
             message=payload.message,
             date=datetime.now()
